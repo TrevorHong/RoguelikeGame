@@ -90,6 +90,8 @@ public static class ProceduralGenerationAlgorithms
                 }
             }
         }
+
+        return roomsList;
     }
 
     private static void SplitVertically(int minWidth, int minHeight, Queue<BoundsInt> roomsQueue, BoundsInt room)
