@@ -30,9 +30,15 @@ public class TileMapVisualizer : MonoBehaviour
         tileMap.SetTile(tilePosition, tile);
     }
 
-    internal void PaintSingleBasicWall(Vector2Int position)
+    internal void PaintSingleBasicWall(Vector2Int position, string binaryType)
     {
+        Debug.Log(position + " type: " + binaryType);
         PaintSingleTile(wallTileMap, wallTop, position);
+    }
+
+    internal void PaintSingleCornerWall(Vector2Int position, string neighboursBinaryType)
+    {
+        
     }
 
     public void Clear()
