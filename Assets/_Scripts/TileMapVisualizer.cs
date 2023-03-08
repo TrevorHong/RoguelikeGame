@@ -9,7 +9,7 @@ public class TileMapVisualizer : MonoBehaviour
     [SerializeField]
     private Tilemap floorTileMap, wallTileMap;
     [SerializeField]
-    private TileBase floorTile, wallTop; // can become an array to select from random tiles
+    private TileBase floorTile, wallTop, wallSideRight, wallSideLeft, wallBottom, wallFull; // can become an array to select from random tiles
 
     public void PaintFloorTiles(IEnumerable<Vector2Int> floorPositions)
     {
@@ -32,8 +32,31 @@ public class TileMapVisualizer : MonoBehaviour
 
     internal void PaintSingleBasicWall(Vector2Int position, string binaryType)
     {
-        Debug.Log(position + " type: " + binaryType);
-        PaintSingleTile(wallTileMap, wallTop, position);
+        int typeAsInt = Convert.ToInt32(binaryType, 2);
+        TileBase tile = null;
+        if (WallTypesHelper.wallTop.Contains(typeAsInt))
+        {
+            tile = wallTop;
+        }
+        else if (WallTypesHelper.wallSideRight.Contains(typeAsInt))
+        {
+            tile = wallSideRight;
+        }
+        else if (WallTypesHelper.wallSideLeft.Contains(typeAsInt))
+        {
+            tile = wallSideLeft;
+        }
+        else if (WallTypesHelper.wallBottm.Contains(typeAsInt))
+        {
+            tile = wallBottom;
+        }
+        else if (WallTypesHelper.wallFull.Contains(typeAsInt))
+        {
+            tile = wallFull;
+        }
+
+        if (tile != null)
+            PaintSingleTile(wallTileMap, tile, position);
     }
 
     internal void PaintSingleCornerWall(Vector2Int position, string neighboursBinaryType)
