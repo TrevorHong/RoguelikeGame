@@ -9,7 +9,13 @@ public class TileMapVisualizer : MonoBehaviour
     [SerializeField]
     private Tilemap floorTileMap, wallTileMap;
     [SerializeField]
-    private TileBase floorTile, wallTop, wallSideRight, wallSideLeft, wallBottom, wallFull; // can become an array to select from random tiles
+    private TileBase floorTile, wallTop, wallSideRight, wallSideLeft, wallBottom, wallFull,
+        wallInnerCornerDownRight, wallInnerCornerDownLeft,
+        wallDiagonalCornerDownRight, wallDiagonalCornerDownLeft,
+        wallDiagonalCornerUpRight, wallDiagonalCornerUpLeft; // can become an array to select from random tiles
+    [SerializeField]
+    private TileBase errorTile; // in case of unforseen edge cases
+
 
     public void PaintFloorTiles(IEnumerable<Vector2Int> floorPositions)
     {
@@ -54,14 +60,59 @@ public class TileMapVisualizer : MonoBehaviour
         {
             tile = wallFull;
         }
+        else
+        {
+            tile = errorTile;
+        }
 
         if (tile != null)
             PaintSingleTile(wallTileMap, tile, position);
     }
 
-    internal void PaintSingleCornerWall(Vector2Int position, string neighboursBinaryType)
+    internal void PaintSingleCornerWall(Vector2Int position, string binaryType)
     {
-        
+        int typeAsInt = Convert.ToInt32(binaryType, 2);
+        TileBase tile = null;
+
+        if (WallTypesHelper.wallInnerCornerDownLeft.Contains(typeAsInt))
+        {
+            tile = wallInnerCornerDownLeft;
+        }
+        else if (WallTypesHelper.wallInnerCornerDownRight.Contains(typeAsInt))
+        {
+            tile = wallInnerCornerDownRight;
+        }
+        else if (WallTypesHelper.wallDiagonalCornerDownLeft.Contains(typeAsInt))
+        {
+            tile = wallDiagonalCornerDownLeft;
+        }
+        else if (WallTypesHelper.wallDiagonalCornerDownRight.Contains(typeAsInt))
+        {
+            tile = wallDiagonalCornerDownRight;
+        }
+        else if (WallTypesHelper.wallDiagonalCornerUpLeft.Contains(typeAsInt))
+        {
+            tile = wallDiagonalCornerUpLeft;
+        }
+        else if (WallTypesHelper.wallDiagonalCornerUpRight.Contains(typeAsInt))
+        {
+            tile = wallDiagonalCornerUpRight;
+        }
+        else if (WallTypesHelper.wallFullEightDirections.Contains(typeAsInt))
+        {
+            tile = wallFull;
+        }
+        else if (WallTypesHelper.wallBottmEightDirections.Contains(typeAsInt))
+        {
+            tile = wallBottom;
+        }
+        else
+        {
+            tile = errorTile;
+        }
+
+        if (tile != null)
+            PaintSingleTile(wallTileMap, tile, position);
     }
 
     public void Clear()
