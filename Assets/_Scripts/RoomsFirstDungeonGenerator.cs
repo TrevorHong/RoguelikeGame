@@ -85,8 +85,12 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
                 position += Vector2Int.down;
             }
             corridor.Add(position);
-            /*corridor.Add(position += Vector2Int.right);
-            corridor.Add(position += Vector2Int.left);*/
+            /*if (Random.Range(0, 2) == 0)
+                corridor.Add(position += Vector2Int.right);
+            if (Random.Range(0, 2) == 0)
+                corridor.Add(position += Vector2Int.left);*/
+            corridor.Add(position += Vector2Int.right);
+            corridor.Add(position += Vector2Int.left);
 
         }
         while (position.x != destination.x)
@@ -100,8 +104,12 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
                 position += Vector2Int.left;
             }
             corridor.Add(position);
-            /*corridor.Add(position += Vector2Int.up);
-            corridor.Add(position += Vector2Int.down);*/
+            /*if (Random.Range(0, 2) == 0)
+                corridor.Add(position += Vector2Int.up);
+            if (Random.Range(0, 2) == 0)
+                corridor.Add(position += Vector2Int.down);*/
+            corridor.Add(position += Vector2Int.up);
+            corridor.Add(position += Vector2Int.down);
         }
 
         return corridor;
