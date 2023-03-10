@@ -45,7 +45,7 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         }
 
         HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
-        //floor.UnionWith(corridors);
+        floor.UnionWith(corridors);
 
         tileMapVisualizer.PaintFloorTiles(floor);
         WallGenerator.CreateWalls(floor, tileMapVisualizer);
@@ -89,8 +89,8 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
                 corridor.Add(position += Vector2Int.right);
             if (Random.Range(0, 2) == 0)
                 corridor.Add(position += Vector2Int.left);*/
-            corridor.Add(position += Vector2Int.right);
-            corridor.Add(position += Vector2Int.left);
+            /*corridor.Add(position += Vector2Int.right);
+            corridor.Add(position += Vector2Int.left);*/
 
         }
         while (position.x != destination.x)
@@ -108,8 +108,8 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
                 corridor.Add(position += Vector2Int.up);
             if (Random.Range(0, 2) == 0)
                 corridor.Add(position += Vector2Int.down);*/
-            corridor.Add(position += Vector2Int.up);
-            corridor.Add(position += Vector2Int.down);
+            /*corridor.Add(position += Vector2Int.up);
+            corridor.Add(position += Vector2Int.down);*/
         }
 
         return corridor;
