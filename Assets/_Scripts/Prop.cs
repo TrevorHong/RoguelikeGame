@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "Props_", menuName = "PCG/PropsData")]
 public class Prop : ScriptableObject
 {
     [Header("Prop data:")]
