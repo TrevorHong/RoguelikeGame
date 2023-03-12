@@ -16,15 +16,24 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     [SerializeField]
     private bool randomWalkRooms = false;
 
+    private DungeonData dungeonData;
+
+    private List<BoundsInt> roomsList;
 
     protected override void RunProceduralGeneration()
     {
         CreateRooms();
+        //CreateDungeonData();
     }
+
+    /*private void CreateDungeonData()
+    {
+        dungeonData.Reset();
+    }*/
 
     private void CreateRooms()
     {
-        var roomsList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(new BoundsInt((Vector3Int)startPosition,
+        roomsList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(new BoundsInt((Vector3Int)startPosition,
             new Vector3Int(dungeonWidth, dungeonHeight, 0)), minRoomWidth, minRoomHeight);
 
         HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
@@ -41,14 +50,16 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         List<Vector2Int> roomCenters = new List<Vector2Int>();
         foreach (var room in roomsList)
         {
-            roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center));
+            roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center)); // adds centers of each room to roomCenter
+            // Debug.Log((Vector2Int)Vector3Int.RoundToInt(room.center));
         }
 
         HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
         floor.UnionWith(corridors);
 
-        tileMapVisualizer.PaintFloorTiles(floor);
-        WallGenerator.CreateWalls(floor, tileMapVisualizer);
+        tileMapVisualizer.PaintFloorTiles(floor); // place floor tile sprites
+        // tileMapVisualizer.paintCorridorFloorTiles(corridors); // place corridor floor tile sprites
+        WallGenerator.CreateWalls(floor, tileMapVisualizer); // generate walls with colliders
     }
 
     private HashSet<Vector2Int> ConnectRooms(List<Vector2Int> roomCenters)

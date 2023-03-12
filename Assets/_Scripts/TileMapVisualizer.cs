@@ -13,6 +13,10 @@ public class TileMapVisualizer : MonoBehaviour
         wallInnerCornerDownRight, wallInnerCornerDownLeft,
         wallDiagonalCornerDownRight, wallDiagonalCornerDownLeft,
         wallDiagonalCornerUpRight, wallDiagonalCornerUpLeft; // can become an array to select from random tiles
+
+    [SerializeField]
+    private TileBase corridorFloor; // test
+
     [SerializeField]
     private TileBase errorTile; // in case of unforseen edge cases
 
@@ -20,6 +24,11 @@ public class TileMapVisualizer : MonoBehaviour
     public void PaintFloorTiles(IEnumerable<Vector2Int> floorPositions)
     {
         PaintTiles(floorPositions, floorTileMap, floorTile);
+    }
+
+    public void paintCorridorFloorTiles(IEnumerable<Vector2Int> corridorPositions)
+    {
+        PaintTiles(corridorPositions, floorTileMap, corridorFloor);
     }
 
     private void PaintTiles(IEnumerable<Vector2Int> positions, Tilemap tileMap, TileBase tile)
