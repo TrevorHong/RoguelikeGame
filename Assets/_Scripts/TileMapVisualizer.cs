@@ -15,7 +15,7 @@ public class TileMapVisualizer : MonoBehaviour
         wallDiagonalCornerUpRight, wallDiagonalCornerUpLeft; // can become an array to select from random tiles
 
     [SerializeField]
-    private TileBase corridorFloor; // test
+    private TileBase corridorFloor; // for corridor floors testing
 
     [SerializeField]
     private TileBase errorTile; // in case of unforseen edge cases

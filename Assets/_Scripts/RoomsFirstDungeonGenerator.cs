@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
@@ -20,10 +21,21 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
     private List<BoundsInt> roomsList;
 
+    public UnityEvent OnFinishedRoomGeneration;
+
+    private void Awake()
+    {
+        // generator game object must have dungeonData script, I think?
+        dungeonData = FindObjectOfType<DungeonData>();
+        if (dungeonData == null)
+            dungeonData = gameObject.AddComponent<DungeonData>();
+    }
+
     protected override void RunProceduralGeneration()
     {
         CreateRooms();
         //CreateDungeonData();
+        OnFinishedRoomGeneration?.Invoke();
     }
 
     /*private void CreateDungeonData()
@@ -48,10 +60,14 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         }
 
         List<Vector2Int> roomCenters = new List<Vector2Int>();
+
+        
         foreach (var room in roomsList)
         {
             roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center)); // adds centers of each room to roomCenter
-            // Debug.Log((Vector2Int)Vector3Int.RoundToInt(room.center));
+
+            //Debug.Log((Vector2Int)Vector3Int.RoundToInt(room.center));
+            Debug.Log(room);
         }
 
         HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
@@ -166,21 +182,27 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
     private HashSet<Vector2Int> CreateSimpleRooms(List<BoundsInt> roomsList)
     {
-        /**
+        /*
          * https://youtu.be/pWZg1oChtnc?list=PLcRSafycjWFenI87z7uZHFv6cUG2Tzu9v&t=586
          * Interesting comment he made about decorating the rooms procedurally
          */
         HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
         foreach (var room in roomsList)
         {
+            // to be added to 
+            HashSet<Vector2Int> tempRoomTiles = new();
+
             for (int col = offset; col < room.size.x - offset; col++)
             {
                 for (int row = offset; row < room.size.y - offset; row++)
                 {
                     Vector2Int position = (Vector2Int)room.min + new Vector2Int(col, row);
                     floor.Add(position);
+                    tempRoomTiles.Add(position);
                 }
             }
+            Room roomData = new Room(room.center, tempRoomTiles);
+            dungeonData.Rooms.Add(roomData);
         }
 
         return floor;
