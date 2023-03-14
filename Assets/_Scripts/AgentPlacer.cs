@@ -33,6 +33,7 @@ public class AgentPlacer : MonoBehaviour
         if (dungeonData == null)
             return;
 
+        Debug.Log("TEST PLACE AGENTS");
         //Loop for each room
         for (int i = 0; i < dungeonData.Rooms.Count; i++)
         {

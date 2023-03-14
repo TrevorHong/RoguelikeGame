@@ -31,11 +31,11 @@ public class DungeonData : MonoBehaviour
         Destroy(PlayerReference);
     }
 
-    public IEnumerator TutorialCoroutine(Action code)
+    /*public IEnumerator TutorialCoroutine(Action code)
     {
         yield return new WaitForSeconds(1);
         code();
-    }
+    }*/
 }
 
 

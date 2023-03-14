@@ -75,8 +75,8 @@ public class PropPlacementManager : MonoBehaviour
             PlaceProps(room, innerProps, room.InnerTiles, PlacementOriginCorner.BottomLeft);
         }
 
-        //OnFinished?.Invoke();
-        Invoke("RunEvent", 1);
+        OnFinished?.Invoke();
+        //Invoke("RunEvent", 1);
 
     }
 
