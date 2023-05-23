@@ -101,11 +101,11 @@ public class PropPlacementManager : MonoBehaviour
     private void PlaceProps(
         Room room, List<Prop> wallProps, HashSet<Vector2Int> availableTiles, PlacementOriginCorner placement)
     {
-        //Remove path positions from the initial nearWallTiles to ensure the clear path to traverse dungeon
+        // Remove path positions from the initial nearWallTiles to ensure the clear path to traverse dungeon
         HashSet<Vector2Int> tempPositons = new HashSet<Vector2Int>(availableTiles);
         tempPositons.ExceptWith(dungeonData.Path);
 
-        //We will try to place all the props
+        // We will try to place all the props
         foreach (Prop propToPlace in wallProps)
         {
             //We want to place only certain quantity of each prop
