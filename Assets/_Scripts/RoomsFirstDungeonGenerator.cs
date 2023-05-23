@@ -5,6 +5,11 @@ using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// Class that combines procedural generation algorithms, room creation,
+/// and corrdior connection logic to generate a dungeon layout based on
+/// predefined parameters
+/// </summary>
 public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 {
     [SerializeField]
