@@ -31,7 +31,6 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
     public UnityEvent OnFinishedRoomGeneration;
 
-
     private void Awake()
     {
         // generator game object must have dungeonData script
@@ -83,7 +82,7 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         floor.UnionWith(corridors);
 
         tileMapVisualizer.PaintFloorTiles(floor); // place floor tile sprites
-        // tileMapVisualizer.paintCorridorFloorTiles(corridors); // place corridor floor tile sprites
+        tileMapVisualizer.paintCorridorFloorTiles(corridors); // place corridor floor tile sprites
         WallGenerator.CreateWalls(floor, tileMapVisualizer); // generate walls with colliders
     }
 
@@ -133,8 +132,8 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             }
             corridor.Add(position);
             // corridor width
-            /*corridor.Add(position += Vector2Int.right);
-            corridor.Add(position += Vector2Int.left);*/
+            corridor.Add(position += Vector2Int.right*3);
+            corridor.Add(position += Vector2Int.left*3);
 
         }
         while (position.x != destination.x)
@@ -149,8 +148,8 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             }
             corridor.Add(position);
             // corridor width
-            /*corridor.Add(position += Vector2Int.up);
-            corridor.Add(position += Vector2Int.down);*/
+            corridor.Add(position += Vector2Int.up*3);
+            corridor.Add(position += Vector2Int.down*3);
         }
         if (!generateInEditor)
             dungeonData.Path.UnionWith(corridor);
