@@ -19,17 +19,22 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     [SerializeField]
     [Range(0, 10)]
     private int offset = 1;
+
+    // value to determine whether dungeon should have rectangular rooms or not
     [SerializeField]
     private bool randomWalkRooms = false;
 
     private DungeonData dungeonData;
+
+    [SerializeField]
+    private bool generateInEditor = false;
 
     public UnityEvent OnFinishedRoomGeneration;
 
 
     private void Awake()
     {
-        // generator game object must have dungeonData script, I think?
+        // generator game object must have dungeonData script
         dungeonData = FindObjectOfType<DungeonData>();
         if (dungeonData == null)
             dungeonData = gameObject.AddComponent<DungeonData>();
@@ -37,40 +42,43 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
 
     protected override void RunProceduralGeneration()
     {
-        dungeonData.Reset();
+        if (!generateInEditor)
+        {
+            Debug.Log("RWRWERWE");
+            dungeonData.Reset();
+        }
         CreateRooms();
         OnFinishedRoomGeneration?.Invoke();
     }
 
     /// <summary>
-    /// 
+    /// Generates and creates rooms within the dungeon.
     /// </summary>
     private void CreateRooms()
     {
+        // generate room boundaries using Binary Space Partitioning algorithm
         List<BoundsInt> roomsList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(new BoundsInt((Vector3Int)startPosition,
             new Vector3Int(dungeonWidth, dungeonHeight, 0)), minRoomWidth, minRoomHeight);
 
         HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
 
+        // create rooms randomly or in a rectangular shape
         if (randomWalkRooms)
-        {
             floor = CreateRoomsRandomly(roomsList);
-        }
         else
-        {
             floor = CreateRectangularRooms(roomsList);
-        }
 
         List<Vector2Int> roomCenters = new List<Vector2Int>();
 
-        
+        // iterate through each rooms and add their centers to roomCenters List
         foreach (var room in roomsList)
         {
-            roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center)); // adds centers of each room to roomCenter
+            roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center));
 
             Debug.Log(room);
         }
 
+        // connect rooms with corridors
         HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
         floor.UnionWith(corridors);
 
@@ -144,7 +152,9 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             /*corridor.Add(position += Vector2Int.up);
             corridor.Add(position += Vector2Int.down);*/
         }
-        dungeonData.Path.UnionWith(corridor);
+        if (!generateInEditor)
+            dungeonData.Path.UnionWith(corridor);
+
         return corridor;
     }
 
@@ -225,7 +235,8 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
                 }
             }
 
-            dungeonData.Rooms.Add(new Room(room.center, tempRoomTiles));
+            if (!generateInEditor)
+                dungeonData.Rooms.Add(new Room(room.center, tempRoomTiles));
         }
 
         return floor;
