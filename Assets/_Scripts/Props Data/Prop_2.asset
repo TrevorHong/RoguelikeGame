@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 157cb0bc47e6d3e438bf4b13951bc3dd, type: 3}
-  m_Name: Props_Test_1
+  m_Name: Prop_2
   m_EditorClassIdentifier: 
   PropSprite: {fileID: -3679828817949995438, guid: a0d3fbbc155eb404a87f827b40a48dfe, type: 3}
   PropSize: {x: 1, y: 1}
