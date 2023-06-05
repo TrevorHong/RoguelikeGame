@@ -20,6 +20,10 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     [Range(0, 10)]
     private int offset = 1;
 
+    [SerializeField]
+    [Range(0, 10)]
+    private int corridorWidth = 2;
+
     // value to determine whether dungeon should have rectangular rooms or not
     [SerializeField]
     private bool randomWalkRooms = false;
@@ -117,7 +121,6 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     /// <returns></returns>
     private HashSet<Vector2Int> CreateCorridor(Vector2Int currentRoomCenter, Vector2Int destination)
     {
-        var thickness = 1;
         HashSet<Vector2Int> corridor = new HashSet<Vector2Int>();
         var position = currentRoomCenter;
         corridor.Add(position);
@@ -132,7 +135,7 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
                 position += Vector2Int.down;
             }
             corridor.Add(position);
-            for (int i = 0; i < thickness; i++)
+            for (int i = 0; i < corridorWidth; i++)
             {
                 corridor.Add(position + Vector2Int.right * i);
                 corridor.Add(position + Vector2Int.left * i);
@@ -150,7 +153,7 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
                 position += Vector2Int.left;
             }
             corridor.Add(position);
-            for (int i = 0; i < thickness; i++)
+            for (int i = 0; i < corridorWidth; i++)
             {
                 corridor.Add(position + Vector2Int.up * i);
                 corridor.Add(position + Vector2Int.down * i);
