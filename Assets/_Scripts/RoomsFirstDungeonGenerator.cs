@@ -117,6 +117,7 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     /// <returns></returns>
     private HashSet<Vector2Int> CreateCorridor(Vector2Int currentRoomCenter, Vector2Int destination)
     {
+        var thickness = 1;
         HashSet<Vector2Int> corridor = new HashSet<Vector2Int>();
         var position = currentRoomCenter;
         corridor.Add(position);
@@ -131,9 +132,11 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
                 position += Vector2Int.down;
             }
             corridor.Add(position);
-            // corridor width
-            /*corridor.Add(position += Vector2Int.right*3);
-            corridor.Add(position += Vector2Int.left*3);*/
+            for (int i = 0; i < thickness; i++)
+            {
+                corridor.Add(position + Vector2Int.right * i);
+                corridor.Add(position + Vector2Int.left * i);
+            }
 
         }
         while (position.x != destination.x)
@@ -147,9 +150,11 @@ public class RoomsFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
                 position += Vector2Int.left;
             }
             corridor.Add(position);
-            // corridor width
-            /*corridor.Add(position += Vector2Int.up*3);
-            corridor.Add(position += Vector2Int.down*3);*/
+            for (int i = 0; i < thickness; i++)
+            {
+                corridor.Add(position + Vector2Int.up * i);
+                corridor.Add(position + Vector2Int.down * i);
+            }
         }
         if (!generateInEditor)
             dungeonData.Path.UnionWith(corridor);
